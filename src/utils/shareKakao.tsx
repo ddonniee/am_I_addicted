@@ -7,8 +7,8 @@ export const shareKakao=(title:string, url:string)=>{
     if(window.Kakao) {
         const kakao = window.Kakao;
         if(!kakao.isInitialized()) {
-            // kakao.init(process.env.REACT_APP_KAKAO_SHARE_KEY);
-            kakao.init('84b0a9e347bcf91463842245d45520d9')
+            kakao.init(process.env.REACT_APP_KAKAO_SHARE_KEY);
+            // kakao.init('84b0a9e347bcf91463842245d45520d9')
         }
         kakao.Share.createCustomButton({
             container: '#kakao-btn',

@@ -5,13 +5,15 @@ import {Box, Button} from '@mui/material';
 
 //imgs 
 import Image from '../assets/img/main.jpeg';
+import { useNavigate } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Main:React.FC=()=>{
 
+    const navigate = useNavigate();
     const onStart = (event: React.MouseEvent<HTMLButtonElement>) =>{
-        window.location.assign('/test')
+        navigate('/test')
     }
     
     const titleRef = useRef(null);

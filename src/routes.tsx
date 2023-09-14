@@ -13,7 +13,7 @@ interface Route {
   }
 
 const routes:Route[] = [
-    { path: '', exact: true, name:'Main', element: Main}, 
+    { path: '/', exact: true, name:'Main', element: Main}, 
     { path: '/test', exact: true, name:'Test', element: Test},
     { path: '/result', exact: true, name:'Result', element: Result}, 
 ]

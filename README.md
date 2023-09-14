@@ -17,3 +17,4 @@ redux-toolkit
 
 ## ❗️ to do 
 - 돌아가기 버튼 클릭시 메인 화면으로 연결
+- progress bar
