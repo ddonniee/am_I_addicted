@@ -1,25 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import routes from "./routes";
+import {BrowserRouter as Router, Routes, Route, useLocation, useNavigate} from 'react-router-dom'
+import Error from './views/Error';
+import {RootState, store} from './store'
+import { Provider, useSelector } from 'react-redux';
+const App:React.FC =()=> {
 
-function App() {
+  const containerClassName = useSelector(
+    (state: RootState) => state.container.value
+  );
+  const [container, setContainer] = useState('');
+  useEffect(()=>{
+    setContainer(containerClassName)
+  },[])
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <Provider store={store}>
+    <Router basename={process.env.REACT_APP_PUBLIC_URL}>
+    <div className={`inner-container ${container}`} id="inner-container">
+      <Routes >
+        {routes.map((route, index) => (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={<route.element />}
+                />
+              ))}
+            <Route path="*" element={<Error />} />
+      </Routes>
+      </div>
+   </Router>
+  </Provider>
   );
 }
 

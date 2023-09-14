@@ -1,0 +1,19 @@
+@import '../variables.scss';
+
+.test-container {
+    .custom-btn {
+        min-width: 50%; white-space: wrap;
+    }
+    .question {
+        overflow: hidden; text-align: center;
+        img {
+            padding: 30px 0;
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            min-height: 300px;
+        }
+    }
+   
+}
+

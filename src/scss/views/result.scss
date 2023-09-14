@@ -1,0 +1,19 @@
+.result-page {
+    text-align: center;
+    & > img {
+        width: auto;
+        height: 300px;
+    }
+    .kakao-btn {
+        display: none; 
+    }
+    .kakao-btn + label {
+        display: flex; justify-content: center;
+        span {
+            align-self: center; font-size: 1.3årem; padding: 0 10px; font-weight: 600;
+        }
+        .kakao-img {
+            width: 60px; height: 60px; cursor: pointer;
+        }
+    }
+}
