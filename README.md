@@ -13,8 +13,9 @@ redux-toolkit
 
 ## 📌 주요 기능
 1. 리액트 상태관리로만 사용자의 선택값을 관리
-2. 카카오톡 공유하기를 통해 URL 공유
+2. 카카오톡 공유하기를 통해 URL 공유 (github url로는 불가하여 로컬에서만 가능)
 
-## ❗️ to do 
-- 돌아가기 버튼 클릭시 메인 화면으로 연결
-- progress bar
+## 프로젝트 시작
+- npm install
+- 로컬 환경 : <App> 컴포넌트에 Router 설정 basename 없이, 카카오톡 공유하기 가능
+- 깃헙 배포환경 : <App> 컴포넌트에 Router 설정 basename 포함, 카카오톡 공유하기 불가능 (깃헙 URL주소로 접근 불가)

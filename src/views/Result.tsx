@@ -13,6 +13,7 @@ import Result2 from '../assets/img/result2.jpeg';
 import Result3 from '../assets/img/result3.jpeg';
 import Result4 from '../assets/img/result4.jpeg';
 import Kakao from '../assets/img/kakao.png'
+import Back from '../assets/img/back.png'
 // utils
 import { shareKakao } from "../utils/shareKakao";
 const Result:React.FC=()=>{
@@ -20,14 +21,24 @@ const Result:React.FC=()=>{
     const location = useLocation();
     const score = location.state.score;
     const path = location.pathname==='/result' ? 'result-container':''
-    const title = process.env.REACT_APP_SHARE_TITLE;
-    const url = process.env.REACT_APP_PUBLIC_URL;
+    const domain = window.location.origin;
+    const [isSharing, setIsSharing] = useState(false)
+    const NO_SHARE = '카카오톡 공유하기는 로컬 환경에서만 테스트 가능합니다.'
+    
     const dispatch = useDispatch();
     useEffect(()=>{
         console.log(score)
         dispatch({type:update.type, payload:path})
     },[])
 
+    useEffect(()=>{
+        if(domain.includes('localhost')) {
+            console.log(domain)
+            setIsSharing(true)
+        }else {
+            setIsSharing(false)
+        }
+    },[])
    
     const result = [
         {
@@ -69,11 +80,18 @@ const Result:React.FC=()=>{
             elem = 3
         }
         if(elem===-1) {
-            setOpenAlert(true)
+            setAlertTxt('응답을 완료해주세요.')
         }
     }
 
     const [openAlert, setOpenAlert] = useState(false)
+    const [alertTxt, setAlertTxt] = useState('')
+    useEffect(() => {
+         window.onbeforeunload = function pushRefresh() {
+           window.location.assign('/')
+         };
+     }, []);
+
    useEffect(()=>{
     let timer = setTimeout(()=>{
         countScore();
@@ -99,28 +117,43 @@ const Result:React.FC=()=>{
     },5000)
   }, []);
 
+  useEffect(()=>{
+    console.log(isSharing, alertTxt)
+    if(alertTxt!=='') {
+        setOpenAlert(true)
+    }
+    else { 
+        setOpenAlert(false)
+    }
+  },[alertTxt])
+  useEffect(()=>{
+    if(!openAlert) {
+        setAlertTxt('')
+    }
+  },[openAlert])
     return(
         <div className='contents'>
             <div className='progress-bar'></div>
             {
                 elemIdx!==-1 &&
                 <div className="result-page">
+                    <div className="retest-btn" onClick={()=>window.location.assign('/')}><img src={Back} />다시 해보기</div>
                     <h1 className="title">{result[elemIdx].title}</h1>
                     <span className="detail-txt">{result[elemIdx].detail}</span>
                     <img src={result[elemIdx].imgSrc} alt="result-img"/>
-
-                    <button onClick={()=>shareKakao('title','title')} className='kakao-btn' id='kakao-btn'></button>
-                    <label htmlFor="kakao-btn"><span>카카오톡 공유하기</span><img src={Kakao} className="kakao-img"/></label>
+                    <button  className='kakao-btn' id='kakao-btn'></button>
+                    <label onClick={()=> isSharing ? shareKakao() : setAlertTxt(NO_SHARE)} htmlFor="kakao-btn" className="kakao-label"><span>카카오톡 공유하기</span><img src={Kakao} className="kakao-img"/></label>
                 </div>
             }
             {
                 openAlert &&
-                <Warning text="Please do test first" onClose={()=>setOpenAlert(false)}/>
+                <Warning text={alertTxt} onClose={()=>setOpenAlert(false)} isReload={alertTxt===NO_SHARE ? false:true}/>
             }
             {
                 elemIdx === -1 && 
                 <Seeking />
             }
+        
         </div>
     )
 }

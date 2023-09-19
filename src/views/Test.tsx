@@ -49,15 +49,10 @@ const Test:React.FC=()=>{
     const score = useSelector((state:RootState)=>state.score.value);
     const [cnt, setCnt] = useState(0)
 
-    // kakao sharing
-    // useEffect(()=>{
-    //     const script = document.createElement("script");
-    //     script.src = "https://developers.kakao.com/sdk/js/kakao.js";
-    //     script.async = true;
-    //     document.body.appendChild(script);
-    //     return () => document.body.removeChild(script);
-    //   }, []);
-
+    /**
+     * 함수명 : onLoadResult
+     * 기능 : 사용자가 전체 질문에 대한 응답 완료시 /result 페이지로 연결
+     */
     const onLoadResult = () =>{
         // window.location.assign('/result')
         navigate('/result', {
@@ -67,10 +62,15 @@ const Test:React.FC=()=>{
         })
     }
     const [isProceed, setIsProceed] = useState(false)
+    
+    /**
+     * 함수명 : onAddScroe
+     * 기능 : 사용자가 질문에 대한 응답을 완료하면 해당 응답에 대한 점수를 토탈값에 더하는 함수
+     * @param idx // 질문 항목의 인덱스값
+     */
     const onAddScroe = (idx:number)=> {
         setIsProceed(true);
         let newScore = 0;
-        console.log(score,newScore)
         if(idx===0) {
             newScore = score+1;
         }else {
@@ -83,13 +83,9 @@ const Test:React.FC=()=>{
         }else {
             onLoadResult()
         }
-        // const loadingTimer = setTimeout(() => {
-        //     setIsProceed(false)
-        //   }, 1000)
-        //   clearTimeout(loadingTimer);
     }
    
-    /**n img animation */
+    /** img animation */
     const imgRef = useRef(null);
     const [imageIndex, setImageIndex] = useState(0);
     const imagePaths:string[][] = [
@@ -185,8 +181,8 @@ const Test:React.FC=()=>{
 
       return(
           <>
+          <progress max={10} value={cnt} className='progress-bar'></progress>
           <div className='contents test-container' ref={boxRef1}>
-            <div className='progress-bar'></div>
             <div className='title' ref={boxRef2}>{data[cnt].question}</div>
             <div className='question' ref={boxRef3}>
             <img ref={imgRef} src={imagePaths[cnt][imageIndex]}></img>

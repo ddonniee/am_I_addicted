@@ -3,17 +3,20 @@ import React, { useEffect } from "react";
 interface WarningProps {
     text: string;
     onClose: (value:boolean) => void;
+    isReload : boolean;
 }
 const Warning:React.FC<WarningProps> = props =>{
 
-    const {text, onClose} = props;
+    const {text, onClose, isReload} = props;
 
       useEffect(() => {
-        setTimeout(() => {
-            onClose(false);
-            // 3초 후에 홈 페이지로 이동
-            window.location.assign('/');
-        }, 3000);
+            setTimeout(() => {
+                onClose(false);
+                // 3초 후에 홈 페이지로 이동
+                if(isReload) {
+                    window.location.assign('/');
+                }
+            }, 3000);
     }, [onClose]);
 
     return(
@@ -25,12 +28,3 @@ const Warning:React.FC<WarningProps> = props =>{
     )
 }
 export default Warning;
-
-// const Style = styled.div`
-//     .timeout-modal {
-//         background : black; padding: 10px 15px; border-radius: 10px;
-//         span {
-//             color: white; font-size: 1.2rem; font-weight: 600;
-//         }
-//     }
-// `
